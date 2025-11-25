@@ -15,7 +15,7 @@
   <img src="assets/TAVIE_animated_logo.gif" alt="TAVIE_logo" width="650"/>
 </p>
 
-This repository holds the source code and implementation of *Tangent Approximation based Variational InferencE* (**TAVIE**) proposed in Roy, S., Dey, P., Pati, D., & Mallick, B. K. (2025), *A Generalized Tangent Approximation Framework for Strongly Super‑Gaussian Likelihoods*, [arXiv:2504.05431](https://arxiv.org/abs/2504.05431).
+This repository holds the source code and implementation of **TAVIE-SSG** proposed in Roy, S., Dey, P., Pati, D., & Mallick, B. K. (2025), *A Generalized Tangent Approximation Based Variational Inference Framework for Strongly Super‑Gaussian Likelihoods*.
 
 ---
 
@@ -39,34 +39,35 @@ Texas A&M University, College Station, TX, USA
 
 ## NEWS
 
-- This is the first official release of `TAVIE v1.0.0` on `GitHub`.
-- Explore different example cases, settings and usage of TAVIE across various strongly super-Gaussian (SSG) likelihoods with comparison against other state-of-the-art variational inference (VI) algorithms.
-- Application of TAVIE in real-word data studies has also been presented.
-- Though TAVIE can run on any `Python` IDEs, we recommend using [Visual Studio Code](https://code.visualstudio.com/).
+- This is the second official release of `TAVIE-SSG v2.0.0` on `GitHub`.
+- Explore different example cases, settings and usage of TAVIE-SSG across various strongly super-Gaussian (SSG) likelihoods with comparison against other state-of-the-art variational inference (VI) algorithms.
+- Application of TAVIE-SSG in real-word data studies has also been presented.
+- Though TAVIE-SSG can run on any `Python` IDE, we recommend using [Visual Studio Code](https://code.visualstudio.com/).
 
 ---
 
 ## Overview
 
-*Variational inference* (VI), a concept rooted from statistical physics, has gained recent traction as a contender to prevalent Markov chain Monte Carlo (MCMC) sampling techniques used for posterior inference. VI has transformed approximate Bayesian inference through its power of scaling compute time under big data with applications extending out to the realm of *machine learning*, specifically in *graphical models* ([Wainwright and Jordan, 2008](https://www.nowpublishers.com/article/Details/MAL-001); [Jordan et al., 1999](https://link.springer.com/article/10.1023/A:1007665907178)), *hidden Markov models* (HMMs) ([MacKay, 1997](http://www.inference.org.uk/mackay/ensemblePaper.pdf)), *latent class models* ([Blei et al., 2003](https://jmlr.csail.mit.edu/papers/v3/blei03a.html)), and *neural networks* (NNs) ([Graves, 2011](https://papers.nips.cc/paper_files/paper/2011/hash/7eb3c8be3d411e8ebfab08eba5f49632-Abstract.html)). *Tangent approximation* ([Jaakkola and Jordan, 2000](https://link.springer.com/article/10.1023/A:1008932416310)), forming a popular class of VI techniques in intractable non-conjugate models has been used in diverse modeling frameworks like *low-rank approximations* ([Srebro and Jaakkola, 2003](https://people.csail.mit.edu/tommi/papers/SreJaa-icml03.pdf)), *sparse kernel machines* ([Shi and Yu, 2019](https://proceedings.neurips.cc/paper/2019/hash/bcc0d400288793e8bdcd7c19a8ac0c2b-Abstract.html)), and *online prediction* ([Konagayoshi and Watanabe, 2019](https://proceedings.mlr.press/v101/konagayoshi19a.html)). However, these applications have been primarily confined to *logistic regression* setting with [Ghosh et al., 2022](https://www.jmlr.org/papers/v23/21-0190.html) being the first ones to investigate optimality and algorithmic stability of tangent transformation based variational inference in *logit* and *multinomial logit* models. Taking a step forward, we develop TAVIE for *strongly super-Gaussian* (SSG) likelihood functions which encompasses a broad class of flexible probability models beyond the framework of logit models. Based on the principle of *convex duality*, TAVIE obtains a quadratic lower bound of the corresponding log-likelihood, thus inducing conjugacy with Gaussian priors over the model parameters. With TAVIE, we also address the challenge of rigorously characterizing the statistical behavior of the variational posterior by developing optimality (near-minimax variational risk bounds) under the fractional likelihood setup.
+*Variational inference* (VI), a concept rooted from statistical physics, has gained recent traction as a contender to prevalent Markov chain Monte Carlo (MCMC) sampling techniques used for posterior inference. VI has transformed approximate Bayesian inference through its power of scaling compute time under big data with applications extending out to the realm of *machine learning*, specifically in *graphical models* ([Wainwright and Jordan, 2008](https://www.nowpublishers.com/article/Details/MAL-001); [Jordan et al., 1999](https://link.springer.com/article/10.1023/A:1007665907178)), *hidden Markov models* (HMMs) ([MacKay, 1997](http://www.inference.org.uk/mackay/ensemblePaper.pdf)), *latent class models* ([Blei et al., 2003](https://jmlr.csail.mit.edu/papers/v3/blei03a.html)), and *neural networks* (NNs) ([Graves, 2011](https://papers.nips.cc/paper_files/paper/2011/hash/7eb3c8be3d411e8ebfab08eba5f49632-Abstract.html)). *Tangent approximation* ([Jaakkola and Jordan, 2000](https://link.springer.com/article/10.1023/A:1008932416310)), forming a popular class of principled VI technique in intractable non-conjugate models has been used in diverse modeling frameworks like *low-rank approximations* ([Srebro and Jaakkola, 2003](https://people.csail.mit.edu/tommi/papers/SreJaa-icml03.pdf)), *sparse kernel machines* ([Shi and Yu, 2019](https://proceedings.neurips.cc/paper/2019/hash/bcc0d400288793e8bdcd7c19a8ac0c2b-Abstract.html)), and *online prediction* ([Konagayoshi and Watanabe, 2019](https://proceedings.mlr.press/v101/konagayoshi19a.html)). However, these applications have been primarily confined to *logistic regression* setting. We develop **T**angent **A**pproximation Based **V**ariational **I**nferenc**E** Framework for **S**trongly **S**uper-**G**aussian Likelihoods (TAVIE-SSG).
+
 
 <p align="center">
   <img src="assets/tangent_bounds.gif" alt="Tangent Bound Animation" width="600"/>
   <br><em>Tangent minorizers for Student's-t likelihood, animated over 50 values of the variational parameter ξ</em>
 </p>
 
-TAVIE works for a large class of SSG likelihoods, comprising mainly of the following types of families:
-- **Type I families**: These comprise of linear regression models with heavy-tailed error distributions. Notable families of error distributions which can be addressed by TAVIE include the *Laplace* (*Double-Exponential*) and *Student's-t*. In general, any *scaled-mixture* of *zero-mean Gaussian* distributions have the SSG form, and thus can be implemented using TAVIE.
-- **Type II families**: These comprise of *generalized linear models* (GLMs) with *Binomial* (including Bernoulli/Logistic) and *Negative-Binomial* response distributions.
+TAVIE-SSG works for a large class of SSG likelihoods, comprising mainly of the following types of families:
+- **Type I families**: These comprise of linear regression models with heavy-tailed error distributions. Notable families of error distributions which can be addressed by TAVIE-SSG include the *Laplace* (*Double-Exponential*) and *Student's-t*. In general, any *scaled-mixture* of *zero-mean Gaussian* distributions have the SSG form, and thus can be implemented using TAVIE-SSG.
+- **Type II families**: These comprise of count response models with *Binomial* (including Bernoulli/Logistic) and *Negative-Binomial* distributions.
 - **Bayesian quantlile regression**: As an extension of the Type-I likelihood to the *asymmetric Laplace distribution*.
 
-Due to the large class of models which can be fitted and infered from using TAVIE, it can be applied to a broad class of real world problems spanning applications in finance and economics, as well as in biostatistics viz., gene expression modeling, microbiome studies and neuroscience. We showcase the implementation and application of TAVIE in two real-world data studies: (i) *quantile regression* in U.S. 2000 Census data to understand the effect of different *demographic features* on the *annual salary*, and (ii) *Negative-Binomial* regression to predict *gene expressions* across different spatial locations in the STARmap data.
+Due to the large class of models which can be fitted and infered from using TAVIE-SSG, it can be applied to a broad class of real-world problems spanning applications in finance and economics, as well as in biostatistics viz., gene expression modeling, microbiome studies and neuroscience. We showcase the implementation and application of TAVIE-SSG in two real-world data studies: (i) *Bayesian quantile regression* in U.S. 2000 Census data, and (ii) *Negative-Binomial* regression to predict *gene expressions* across different spatial locations in the STARmap data.
 
 ---
 
 ## Installation and Dependencies
 
-To get started with TAVIE, which is build on `Python==3.13.5`, clone the current Github repository and install the required dependencies:
+To get started with TAVIE-SSG, which is built on `Python==3.13.5`, clone the current Github repository and install the required dependencies:
 
 * `ipython`
 * `matplotlib`
@@ -83,10 +84,10 @@ To get started with TAVIE, which is build on `Python==3.13.5`, clone the current
 
 ```bash
 # using SSH on bash
-git clone git@github.com:Roy-SR-007/TAVIE.git
+git clone git@github.com:Roy-SR-007/TAVIE-SSG.git
 
 # or, using HTTPS on bash
-git clone https://github.com/Roy-SR-007/TAVIE.git
+git clone https://github.com/Roy-SR-007/TAVIE-SSG.git
 
 # moving to the TAVIE directory
 cd TAVIE
@@ -162,7 +163,7 @@ For each of the TAVIE class listed above, following are the components and their
 
 ---
 
-## TAVIE in action for SSG Type I family: Laplace likelihood
+## TAVIE-SSG in action for SSG Type I family: Laplace likelihood
 
 We consider showing the utilities of each components in the `TAVIE_loc_scale()` class, particularly for the SSG Type I family having the *Laplace* likelihood of the form:
 
@@ -230,20 +231,20 @@ ELBO = laplace_model.get_elbo() # get the ELBO across iterations
 
 ---
 
-## TAVIE vs other state-of-the-art competing algorithms
+## TAVIE-SSG vs other state-of-the-art competing algorithms
 
-We present a bake-off of TAVIE against competing variational inference and MC sampling algorithms viz.,
+We present a bake-off of TAVIE-SSG against competing variational inference and MC sampling algorithms viz.,
 * `ADVI (MF)`: Automatic Differentiation Variational Inference ([Kucukelbir et al., 2017](https://jmlr.org/papers/v18/16-107.html)) in mean-field setting;
 * `ADVI (FR)`: ADVI in full-rank setting;
 * `DADVI`: Deterministic second-order ADVI ([Giordano et al., 2024](https://jmlr.org/papers/v25/23-1015.html));
 * `MFVI`: Mean-Field Variational Inference ([Wand et al., 2011](https://matt-p-wand.net/publicns/Wand11.pdf)) (for Student's-t SSG likelihood only); and
 * `NUTS`: No-U-Turn Monte Carlo Sampling algorithm from the [`PyMC`](https://www.pymc.io/welcome.html) python package ([Patil et al., 2010](https://www.jstatsoft.org/v035/i04)).
 
-To exemplify the performance of TAVIE against these competing methods, we illustrate the case of applying TAVIE to the *Student's-t* SSG likelihood.
+To exemplify the performance of TAVIE-SSG against these competing methods, we illustrate the case of applying TAVIE-SSG to the *Student's-t* SSG likelihood.
 
 <p align="center">
   <img src="results_compete/plots/Student_metrics_n_1000_p_5_other.png" alt="Student results" width="800"/>
-  <br><em>Comparison of TAVIE against the competing methods under the Student's-t SSG model [n=1000; p=5]</em>
+  <br><em>Comparison of TAVIE-SSG against the competing methods under the Student's-t SSG model [n=1000; p=5]</em>
 </p>
 
 <div align="center">
@@ -264,7 +265,7 @@ To exemplify the performance of TAVIE against these competing methods, we illust
 </div>
 
 
-These results demonstrate that TAVIE consistently matches or exceeds the accuracy of competing algorithms while delivering results orders of magnitude faster. To see results for varying sample sizes and number of features across different SSG likelihoods, refer to:
+These results demonstrate that TAVIE-SSG consistently matches or exceeds the accuracy of competing algorithms while delivering results orders of magnitude faster. To see results for varying sample sizes and number of features across different SSG likelihoods, refer to:
 
 <div align="center">
 
@@ -279,58 +280,53 @@ These results demonstrate that TAVIE consistently matches or exceeds the accurac
 
 **Note**: All the competing methods except DADVI and PyMC NUTS have been implemented in [CompetingMethods](CompetingMethods) directory. For implementing PyMC NUTS, the `Python` package `pymc` is to be installed and loaded. DADVI runs in its own dedicated `conda` environment with all the requirements installed; refer to [https://github.com/martiningram/dadvi](https://github.com/martiningram/dadvi) for the complete setup of DADVI.
 
-While *black-box variational inference* (BBVI) algorithms can yield reasonable approximations, they typically incur higher run-times and lack theoretical guarantees. Across all numerical experiments, TAVIE consistently demonstrates stronger empirical performance than the various BBVI methods. Although BBVI algorithms converge (refer to [convergence.ipynb](convergence.ipynb)), their estimates are generally less accurate than those produced by TAVIE.
+While *black-box variational inference* (BBVI) algorithms can yield reasonable approximations, they typically incur higher run-times and lack theoretical guarantees. Across all numerical experiments, TAVIE-SSG consistently demonstrates stronger empirical performance than the various BBVI methods. Although BBVI algorithms converge (refer to [convergence.ipynb](convergence.ipynb)), their estimates are generally less accurate than those produced by TAVIE-SSG.
 
 ---
 
 ## Real data application
 
-We exemplify the application of TAVIE in two real-data studies as follows.
+We exemplify the application of TAVIE-SSG in two real-data studies as follows.
 
-- **Quantile regression with U.S. 2000 Census data**: TAVIE is applied to perform *quantile regression* (hereby referred to as `TAVIE QR`) on the U.S. 2000 Census data (<http://www.census.gov/census2000/PUMS5.html>) to infer about the behavior of *log annual salary* with respect to different *demographic* characteristics. In particular, state-level Census 2000 data containing individual records of the characteristics for a $5\%$ sample of people and housing units has been taken into account. The log of annual salary is treated as the response with demographic characteristics (*gender*, *age*, *race*, *marital status*, and *education level*) of people with $40$ or more weeks of work in the previous year and $35$ or more hours per week of work, constitutes the set of primary features. `TAVIE QR`'s performance is compared with a fast approximate algorithm for quantile regression `Fast QR` (Algorithm $5$ in [Yang et al., 2013](http://proceedings.mlr.press/v28/yang13f.pdf)), where both the methods are applied on the U.S. 2000 Census dataset. Additionally, we also compare `TAVIE QR` with all the aformentioned competing methods (DADVI, ADVI (MF), ADVI (FR), NUTS) and a built-in quantile regression module from the `Python` package `statsmodels`.
+- **Quantile regression with U.S. 2000 Census data**: TAVIE-SSG is applied to perform *quantile regression* (hereby referred to as `TAVIE QR`) on the U.S. 2000 Census data (<http://www.census.gov/census2000/PUMS5.html>) to infer about the behavior of *log annual salary* with respect to different *demographic* characteristics. In particular, state-level Census 2000 data containing individual records of the characteristics for a $5\%$ sample of people and housing units has been taken into account. The log of annual salary is treated as the response with demographic characteristics (*gender*, *age*, *race*, *marital status*, and *education level*) of people with $40$ or more weeks of work in the previous year and $35$ or more hours per week of work, constitutes the set of primary features. `TAVIE QR`'s performance is compared with a fast approximate algorithm for quantile regression `Fast QR` (Algorithm $5$ in [Yang et al., 2013](http://proceedings.mlr.press/v28/yang13f.pdf)), where both the methods are applied on the U.S. 2000 Census dataset. Additionally, we also compare `TAVIE QR` with all the aformentioned competing methods (DADVI, ADVI (MF), ADVI (FR), NUTS) and a built-in quantile regression module from the `Python` package `statsmodels`.
 
-- **Negative-Binomial regression for predicting gene expressionsin STARmap data**: We use our TAVIE Negative-Binomial model for predicting gene expressions in the **STARmap** *spatial transcriptomics* data set (<https://lce.biohpc.swmed.edu/star/explorer.php>). STARmap consists of data from $4$ mice. The experimental mice were dark housed for $4$ days and then either exposed to light or kept in the dark for another one hour before obtaining measurements from the primary visual cortex of each of the mouse brain. The data comprises of the expression of $160$ genes with the number of cells varying between from $931$ to $1167$ for the $4$ diferent mice. We compare the performance of TAVIE, ADVI (MF), ADVI (FR), DADVI, and NUTS in predicting the gene expressions over different spatial locations.
+- **Negative-Binomial regression for predicting gene expressionsin STARmap data**: We use our TAVIE-SSG Negative-Binomial model for predicting gene expressions in the **STARmap** *spatial transcriptomics* data set (<https://lce.biohpc.swmed.edu/star/explorer.php>). STARmap consists of data from $4$ mice. The experimental mice were dark housed for $4$ days and then either exposed to light or kept in the dark for another one hour before obtaining measurements from the primary visual cortex of each of the mouse brain. The data comprises of the expression of $160$ genes with the number of cells varying between from $931$ to $1167$ for the $4$ diferent mice. We compare the performance of TAVIE-SSG, ADVI (MF), ADVI (FR), DADVI, and NUTS in predicting the gene expressions over different spatial locations.
 
-### TAVIE for Bayesian quantile regression in U.S. 2000 Census data
+### TAVIE-SSG for Bayesian quantile regression in U.S. 2000 Census data
 
 We fit the `TAVIE_QR()` module (class) on $n = 5 \times 10^6$ data points across $p=11$ features (viz., `Female`, `Age30`, `Age40`, `Age50`, `Age60`, `Age70`, `NonWhite`, `Married`, `Education`, `Education2`, and `Intercept`). Following are the plots of the `TAVIE QR` estimates for different quantiles across each of the variables along with the corresponding $95%$ confidence bands.
 
 <p align="center">
   <img src="results_data_study/census_QR/TAVIE_QR_95_CI.png" alt="TAVIE QR estimates" width="850"/>
-  <br><em>TAVIE QR estimates along with 95% confidence bands</em>
+  <br><em>TAVIE-SSG QR estimates along with 95% confidence bands</em>
 </p>
 
 Following are the quantile estimates across different features for all the methods. These results correspond to running the algorithms (except `FAST QR`) on $n=10000$ data points because of the high run-time incurred by `DADVI`.
 
 <p align="center">
   <img src="results_data_study/census_QR/comparison.png" alt="comparison" width="900"/>
-  <br><em>Comparison of TAVIE QR and competing methods</em>
+  <br><em>Comparison of TAVIE-SSG QR and competing methods</em>
 </p>
 
-Observe that, the `TAVIE QR` estimates (using $n=10000$) almost coincides with the `FAST QR` estimates (implemented on the full dataset) in the plot above. It is important to note that, `FAST QR` aims at providing scalable quantile regression solutions in large-scale problems, which is beyond the scope of TAVIE and is only used as a means of empirical validation. The estimates from `TAVIE QR`, `ADVI (MF)`, `NUTS`, and `statsmodels` compares well with `FAST QR`. For the detailed code implementation, refer to [census_QR_data_study_main.ipynb](census_QR_data_study_main.ipynb).
+Observe that, the `TAVIE QR` estimates (using $n=10000$) almost coincides with the `FAST QR` estimates (implemented on the full dataset) in the plot above. It is important to note that, `FAST QR` aims at providing scalable quantile regression solutions in large-scale problems, which is beyond the scope of TAVIE-SSG and is only used as a means of empirical validation. The estimates from `TAVIE QR`, `ADVI (MF)`, `NUTS`, and `statsmodels` compares well with `FAST QR`. For the detailed code implementation, refer to [census_QR_data_study_main.ipynb](census_QR_data_study_main.ipynb).
 
 
-### TAVIE for Negative-Binomial spatial regression in STARmap data
+### TAVIE-SSG for Negative-Binomial spatial regression in STARmap data
 
 We fit the `TAVIE_type_II(..., family='negbin')` module (class) on the expression for each of $G=160$ genes across $n = 941$ cells (spatial locations). A basis of $p=27$ *product cubic B-spline functions* was computed at each of the spatial locations.
-
-<p align="center">
-  <img src="assets/gene_expressions.png" alt="gene" width="800"/>
-  <br><em>First 15 gene expressions across spatial locations</em>
-</p>
 
 Comparatively, we fit `ADVI (MF)`, `ADVI (FR)`, `DADVI`, and `NUTS` to compare the spatial gene expressions predictions with `TAVIE`.
 
 <p align="center">
-  <img src="results_data_study/STARmap/Slc17a7_prediction.png" alt="fitted" width="800"/>
-  <br><em>Predicted expression of gene 'Slc17a7' by TAVIE and competing methods</em>
+  <img src="results_data_study/STARmap/Slc17a7.png" alt="fitted" width="800"/>
+  <br><em>Predicted expression of gene 'Slc17a7' by TAVIE-SSG and competing methods</em>
 </p>
 
-The table below lists each competing method along with the number of gene expressions for which its *Pearson residual sum of squares* exceeds that of TAVIE.
+The table below lists each competing method along with the number of gene expressions for which its *Pearson residual sum of squares* exceeds that of TAVIE-SSG.
 
 <div align="center">
 
-| Method | TAVIE Pearson RSS is lower |
+| Method | TAVIE-SSG Pearson RSS is lower |
 |:-------------------:|:----------------------------------------:|
 | **DADVI**         | 150                                    |
 | **ADVI (MF)**       | 160                                    |
@@ -342,8 +338,8 @@ The table below lists each competing method along with the number of gene expres
 The accompanying plot illustrates the goodness-of-fit for each method in predicting the $G=160$ spatially varying gene expressions. For a detailed study, refer to [STARmap_data_study.ipynb](STARmap_data_study.ipynb).
 
 <p align="center">
-  <img src="results_data_study/STARmap/pearson_residuals.png" alt="fitted" width="800"/>
-  <br><em>Pearson RSS plot for TAVIE and competing methods</em>
+  <img src="results_data_study/STARmap/heatmap_random_genes_1_40.png" alt="fitted" width="800"/>
+  <br><em>Pearson RSS plot for TAVIE-SSG and competing methods for 40 randomly selected genes</em>
 </p>
 
 ---

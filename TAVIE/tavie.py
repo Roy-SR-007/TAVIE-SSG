@@ -1,9 +1,8 @@
 # =============================================================================
 # Copyright 2025. Somjit Roy and Pritam Dey. 
-# This program implements the TAVIE algorithm as developed in:
+# This program implements the TAVIE-SSG algorithm as developed in:
 # Roy, S., Dey, P., Pati, D., and Mallick, B.K.
-# 'A Generalized Tangent Approximation Framework for Strongly Super-Gaussian Likelihoods',
-# arXiv:2504.05431 <https://arxiv.org/abs/2504.05431>.
+# 'A Generalized Tangent Approximation Based Variational Inference Framework for Strongly Super-Gaussian Likelihoods'.
 #
 # Authors:
 #   Somjit Roy <sroy_123@tamu.edu> and Pritam Dey <pritam.dey@tamu.edu>
@@ -272,7 +271,7 @@ def cfunc_student(xi: np.ndarray,
     -------
     np.ndarray of shape (n,)
         The correction term used in the ELBO:
-            c(xi) = -0.5 * (ν + 1) * [log(1 + xi² / ν) + xi² / (xi² + ν)]
+            c(xi) = -0.5 * (ν + 1) * [log(1 + xi² / ν) - xi² / (xi² + ν)]
 
     Notes
     -----
@@ -280,7 +279,7 @@ def cfunc_student(xi: np.ndarray,
       when a Student's-t likelihood is assumed.
     """
     res1 = -0.5 * (nu + 1) * np.log1p((xi ** 2) / nu)
-    res2 = -0.5 * (nu + 1) * ((xi ** 2) / ((xi ** 2) + nu))
+    res2 = +0.5 * (nu + 1) * ((xi ** 2) / ((xi ** 2) + nu))
     
     return res1 + res2
 

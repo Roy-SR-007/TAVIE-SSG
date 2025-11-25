@@ -2,11 +2,10 @@
 # Copyright 2025. Somjit Roy and Pritam Dey. 
 # This program implements stochastic variational inference (SVI) for Bayesian
 # logistic regression (following Durante and Rigon, 2019 <https://doi.org/10.1214/19-STS712>)
-# in order to compare with TAVIE against the TAVIE algorithm 
+# in order to compare with TAVIE-SSG
 # as developed in:
 # Roy, S., Dey, P., Pati, D., and Mallick, B.K.
-# 'A Generalized Tangent Approximation Framework for Strongly Super-Gaussian Likelihoods',
-# arXiv:2504.05431 <https://arxiv.org/abs/2504.05431>.
+# 'A Generalized Tangent Approximation Based Variational Inference Framework for Strongly Super-Gaussian Likelihoods'.
 #
 # Authors:
 #   Somjit Roy <sroy_123@tamu.edu> and Pritam Dey <pritam.dey@tamu.edu>
