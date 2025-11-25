@@ -104,7 +104,7 @@ The `TAVIE` package wrapped in the 'TAVIE' folder deals with the implementation 
 
 | Class             | Target SSG Model               | Supported Likelihoods                               | Prior Type                  |
 |-------------------|--------------------------------|-----------------------------------------------------|-----------------------------|
-| `TAVIE_loc_scale` | Heavy-tailed location-scale family (Type I SSG) | Laplace, Student’s-t, Custom location-scale         | Gaussian × Inverse-Gamma    |
+| `TAVIE_loc_scale` | Heavy-tailed location-scale family (Type I SSG) | Laplace, Student’s-t, Custom location-scale         | Gaussian × Gamma    |
 | `TAVIE_type_II`    | Count GLMs (Type II SSG)     | Binomial, Negative-Binomial                         | Gaussian                    |
 | `TAVIE_QR`         | Quantile Regression           | Asymmetric Laplace distribution            | Gaussian                    |
 
@@ -133,7 +133,7 @@ type_II_model = TAVIE_type_II(fit_intercept=True, scale_X=False, family="negbin"
 
 ### Callable functions `afunc` and `cfunc` in `TAVIE_loc_scale()` for custom location-scale family
 
-The *callable* functions `afunc` and `cfunc` are defined in terms of the probability density function (PDF) of the location-scale error distribution family. In other words, when performing the regression $y_i = \boldsymbol{X}_i^{\top}\boldsymbol{\beta} + \epsilon_i$, where $\epsilon_i/\tau$ has the PDF $p(x)$, the functions $A(x)$ and $c(x)$ are defined as:
+The *callable* functions `afunc` and `cfunc` are defined in terms of the probability density function (PDF) of the location-scale error distribution family. In other words, when performing the regression $y_i = \boldsymbol{X}_i^{\top}\boldsymbol{\beta} + \epsilon_i$, where $\tau\epsilon_i$ has the PDF $p(x)$, the functions $A(x)$ and $c(x)$ are defined as:
 
 $$
 A(x) = -\frac{p'(x)}{2x\cdot p(x)} =(2x)^{-1}\cdot \frac{d}{dx}\log p(x),
