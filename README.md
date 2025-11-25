@@ -1,4 +1,4 @@
-# TAVIE: A Generalized Tangent Approximation Framework for Strongly Super-Gaussian Likelihoods
+# TAVIE-SSG: A Generalized Tangent Approximation based Variational Inference Framework for Strongly Super-Gaussian Likelihoods
 
 [![Python](https://img.shields.io/badge/Python-3.13.5-blue)](https://www.python.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
