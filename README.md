@@ -242,22 +242,22 @@ We present a bake-off of TAVIE-SSG against competing variational inference and M
 
 To exemplify the performance of TAVIE-SSG against these competing methods, we illustrate the case of applying TAVIE-SSG to the *Student's-t* SSG likelihood.
 
-| Methods  | MSE($\beta$) | MSE($\tau^2$) | Time (s) |
-|----------|:--------:|:---------:|:----------:|
-| **TAVIE**   | **5.140e-04** <br> (8.158e-05, 1.525e-03) | **2.425e-02** <br> (7.915e-06, 1.801e-01) | **3.255e-03** <br> (2.939e-03, 7.412e-03) |
-| **MFVI**    | 5.177e-04 <br> (7.724e-05, 1.506e-03) | 5.451e-02 <br> (3.043e-05, 3.156e-01) | 2.155e-02 <br> (1.091e-02, 5.851e-02) |
-| **DADVI**   | 5.266e-04 <br> (7.458e-05, 1.569e-03) | **2.225e-02** <br> (1.811e-05, 1.501e-01) | 5.480e-01 <br> (5.131e-01, 1.050e+00) |
-| **ADVI MF** | 5.439e-04 <br> (1.136e-04, 1.386e-03) | 1.173e-01 <br> (1.805e-07, 5.924e-01) | 7.067e+00 <br> (5.662e+00, 8.167e+00) |
-| **ADVI FR** | 5.800e-04 <br> (3.322e-05, 1.728e-03) | 1.519e-01 <br> (2.669e-05, 1.565e+00) | 1.057e+01 <br> (8.076e+00, 1.198e+01) |
-| **NUTS**    | **5.128e-04** <br> (7.464e-05, 1.525e-03) | **2.230e-02** <br> (1.000e-06, 1.406e-01) | 2.753e+00 <br> (2.524e+00, 3.276e+00) |
+<p align="center">
+  <img src="results_compete/plots/Student_MSE_boxplots_multi_n_p_8.png" alt="" width="800"/>
+  <br><em>MSEs in log-scale of TAVIE-SSG and competitors for varying sample size and fixed dimension (p=8)</em>
+</p>
 
-**Average metrics for Student's-t SSG with** [n = 1000; p = 5]. **Bold** represents superior performance.
+<p align="center">
+  <img src="results_compete/plots/Student_MSE_boxplots_multi_p_n_1000.png" alt="" width="800"/>
+  <br><em>MSEs in log-scale of TAVIE-SSG and competitors for varying dimension and fixed sample size (n=1000)</em>
+</p>
 
+<p align="center">
+  <img src="results_compete/plots/runtime_Student_multi_n_multi_p.png" alt="" width="800"/>
+  <br><em>Runtimes in log-scale of TAVIE-SSG and competitors for varying sample size and feature dimensions</em>
+</p>
 
-</div>
-
-
-These results demonstrate that TAVIE-SSG consistently matches or exceeds the accuracy of competing algorithms while delivering results orders of magnitude faster. To see results for varying sample sizes and number of features across different SSG likelihoods, refer to:
+These results demonstrate that TAVIE-SSG consistently matches or exceeds the accuracy of competing algorithms while delivering results orders of magnitude faster. To see results for varying sample sizes and number of features across different SSG likelihoods, and performance of TAVIE-SSG across different choices of the likelihood tempering parameter $\alpha$; refer to:
 
 <div align="center">
 
@@ -267,12 +267,18 @@ These results demonstrate that TAVIE-SSG consistently matches or exceeds the acc
 | Student's-t                    | [Student_comparisons_dadvi_tavie_mfvi_bbvi.ipynb](Student_comparisons_dadvi_tavie_mfvi_bbvi.ipynb) |
 | Negative-Binomial              | [NegBin_comparisons_dadvi_tavie_bbvi.ipynb](NegBin_comparisons_dadvi_tavie_bbvi.ipynb) |
 | General view of all results and metrics | [viewing_results.ipynb](viewing_results.ipynb) |
-
+| Auxiliary simulations | [simulation_reruns.ipynb](simulation_reruns.ipynb) |
+| Likelihood tempering parameter simulations | [simulation_alpha.ipynb](simulation_alpha.ipynb) |
 </div>
 
 **Note**: All the competing methods except DADVI and PyMC NUTS have been implemented in [CompetingMethods](CompetingMethods) directory. For implementing PyMC NUTS, the `Python` package `pymc` is to be installed and loaded. DADVI runs in its own dedicated `conda` environment with all the requirements installed; refer to [https://github.com/martiningram/dadvi](https://github.com/martiningram/dadvi) for the complete setup of DADVI.
 
 While *black-box variational inference* (BBVI) algorithms can yield reasonable approximations, they typically incur higher run-times and lack theoretical guarantees. Across all numerical experiments, TAVIE-SSG consistently demonstrates stronger empirical performance than the various BBVI methods. Although BBVI algorithms converge (refer to [convergence.ipynb](convergence.ipynb)), their estimates are generally less accurate than those produced by TAVIE-SSG.
+
+<p align="center">
+  <img src="results_compete/plots/Student_ELBO_n_2000_p_8.png" alt="" width="800"/>
+  <br><em>ELBO trajectories of TAVIE-SSG, ADVI MF, and ADVI FR under the Student's-t SSG likelihood with (n,p) = (2000, 8)</em>
+</p>
 
 ---
 
@@ -300,7 +306,12 @@ Following are the quantile estimates across different features for all the metho
   <br><em>Comparison of TAVIE-SSG QR and competing methods</em>
 </p>
 
-Observe that, the `TAVIE QR` estimates (using $n=10000$) almost coincides with the `FAST QR` estimates (implemented on the full dataset) in the plot above. It is important to note that, `FAST QR` aims at providing scalable quantile regression solutions in large-scale problems, which is beyond the scope of TAVIE-SSG and is only used as a means of empirical validation. The estimates from `TAVIE QR`, `ADVI (MF)`, `NUTS`, and `statsmodels` compares well with `FAST QR`. For the detailed code implementation, refer to [census_QR_data_study_main.ipynb](census_QR_data_study_main.ipynb).
+Observe that, the `TAVIE QR` estimates (using $n=10000$) almost coincides with the `FAST QR` estimates (implemented on the full dataset) in the plot above. It is important to note that, `FAST QR` aims at providing scalable quantile regression solutions in large-scale problems, which is beyond the scope of TAVIE-SSG and is only used as a means of empirical validation. The estimates from `TAVIE QR`, `ADVI (MF)`, `NUTS`, and `statsmodels` compares well with `FAST QR`. The figure below represents that `TAVIE QR` is orders of magnitude faster than the competing methods executed on the sub-sampled Census dataset. For the detailed code implementation, refer to [census_QR_data_study_main.ipynb](census_QR_data_study_main.ipynb).
+
+<p align="center">
+  <img src="results_data_study/census_QR/runtime_comparison_n_10000.png" alt="runtime" width="800"/>
+  <br><em>Runtimes (in log-scale) of TAVIE-SSG and competitors for performing Bayesian quantile regression</em>
+</p>
 
 
 ### TAVIE-SSG for Negative-Binomial spatial regression in STARmap data
