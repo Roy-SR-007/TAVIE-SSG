@@ -268,7 +268,7 @@ These results demonstrate that TAVIE-SSG consistently matches or exceeds the acc
 | Negative-Binomial              | [NegBin_comparisons_dadvi_tavie_bbvi.ipynb](NegBin_comparisons_dadvi_tavie_bbvi.ipynb) |
 | General view of all results and metrics | [viewing_results.ipynb](viewing_results.ipynb) |
 | Auxiliary simulations | [simulation_reruns.ipynb](simulation_reruns.ipynb) |
-| Likelihood tempering parameter simulations | [simulation_alpha.ipynb](simulation_alpha.ipynb) |
+| For different likelihood tempering parameter choices | [simulation_alpha.ipynb](simulation_alpha.ipynb) |
 </div>
 
 **Note**: All the competing methods except DADVI and PyMC NUTS have been implemented in [CompetingMethods](CompetingMethods) directory. For implementing PyMC NUTS, the `Python` package `pymc` is to be installed and loaded. DADVI runs in its own dedicated `conda` environment with all the requirements installed; refer to [https://github.com/martiningram/dadvi](https://github.com/martiningram/dadvi) for the complete setup of DADVI.
