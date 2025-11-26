@@ -242,14 +242,6 @@ We present a bake-off of TAVIE-SSG against competing variational inference and M
 
 To exemplify the performance of TAVIE-SSG against these competing methods, we illustrate the case of applying TAVIE-SSG to the *Student's-t* SSG likelihood.
 
-<p align="center">
-  <img src="results_compete/plots/Student_metrics_n_1000_p_5_other.png" alt="Student results" width="800"/>
-  <br><em>Comparison of TAVIE-SSG against the competing methods under the Student's-t SSG model [n=1000; p=5]</em>
-</p>
-
-<div align="center">
-
-
 | Methods  | MSE($\beta$) | MSE($\tau^2$) | Time (s) |
 |----------|:--------:|:---------:|:----------:|
 | **TAVIE**   | **5.140e-04** <br> (8.158e-05, 1.525e-03) | **2.425e-02** <br> (7.915e-06, 1.801e-01) | **3.255e-03** <br> (2.939e-03, 7.412e-03) |
